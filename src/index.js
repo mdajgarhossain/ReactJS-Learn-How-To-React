@@ -125,11 +125,22 @@ const MyApp = () => {
         return <h1>{props.course}</h1>
     };
 
-    const Content = (props) => {
+    //1.2: course information, step2
+    const Content = () => {
+        const Part = (props) => {
+            return (
+                <p>
+                    {props.part} {props.exercise}
+                </p>
+            );
+        };
+
         return (
-            <p>
-                {props.part} {props.exercise}
-            </p>
+            <div>
+                <Part part={part1} exercise={exercises1}/>
+                <Part part={part2} exercise={exercises2}/>
+                <Part part={part3} exercise={exercises3}/>
+            </div>
         );
     };
 
@@ -140,9 +151,7 @@ const MyApp = () => {
     return (
         <div>
             <Header  course={course}/>
-            <Content part ={part1} exercise={exercises1} />
-            <Content part ={part2} exercise={exercises2} />
-            <Content part ={part3} exercise={exercises3} />
+            <Content />
             <Total total={exercises1 + exercises2 + exercises3}/>
         </div>
     );
