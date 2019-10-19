@@ -108,24 +108,34 @@ const App = () => {
     );        
 };
 
-// ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 
-//Exercise 1a- 1.1(course information, step1)
+//Exercise
+//Part 1a- 1.1(course information, step1):
+
+//Part 1b - Javascript- Exercises(Modify the existing application):::::::::::::::::::
+//1b- 1.3(course information, step3):
 
 const MyApp = () => {
     const course = 'Half Stack application development';
-    const part1 = 'Fundamentals of React';
-    const exercises1 = 10;
-    const part2 = 'Using props to pass data';
-    const exercises2 = 7;
-    const part3 = 'State of a component';
-    const exercises3 = 14;
+    const part1 = {
+        name: 'Fundamentals of React',
+        exercises: 10
+    };
+    const part2 = {
+        name: 'Using props to pass data',
+        exercises: 7
+    };
+    const part3 = {
+        name: 'State of a component',
+        exercises: 14
+    };
 
     const Header = (props) => {
         return <h1>{props.course}</h1>
     };
 
-    //1.2: course information, step2
+    //1a- 1.2(course information, step2):
     const Content = () => {
         const Part = (props) => {
             return (
@@ -137,9 +147,9 @@ const MyApp = () => {
 
         return (
             <div>
-                <Part part={part1} exercise={exercises1}/>
-                <Part part={part2} exercise={exercises2}/>
-                <Part part={part3} exercise={exercises3}/>
+                <Part part={part1.name} exercise={part1.exercises}/>
+                <Part part={part2.name} exercise={part2.exercises}/>
+                <Part part={part3.name} exercise={part3.exercises}/>
             </div>
         );
     };
@@ -152,7 +162,7 @@ const MyApp = () => {
         <div>
             <Header  course={course}/>
             <Content />
-            <Total total={exercises1 + exercises2 + exercises3}/>
+            <Total total={part1.exercises + part2.exercises + part3.exercises}/>
         </div>
     );
 };
