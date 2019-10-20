@@ -117,27 +117,28 @@ ReactDOM.render(<App />, document.getElementById('root'));
 //1b- 1.3(course information, step3):
 
 const MyApp = () => {
-    const course = 'Half Stack application development';
+    //1b-1.5(course information step5):
+    const course = {
+        name: 'Half Stack application development',
+        parts: [
+            {
+                name: 'Fundamentals of React',
+                exercises: 10
+            },
+    
+            {
+                name: 'Using props to pass data',
+                exercises: 7
+            },
+    
+            {
+                name: 'State of a component',
+                exercises: 14
+            }
+        ]
 
-    //1b-1.4(course information step4):
-    const parts = [
-        {
-            name: 'Fundamentals of React',
-            exercises: 10
-        },
+    };
 
-        {
-            name: 'Using props to pass data',
-            exercises: 7
-        },
-
-        {
-            name: 'State of a component',
-            exercises: 14
-        }
-    ];
-
-    //Loop forEach
 
     const Header = (props) => {
         return <h1>{props.course}</h1>
@@ -155,9 +156,9 @@ const MyApp = () => {
 
         return (
             <div>
-                <Part parts={parts[0]['name']} exercise={parts[0]['exercises']}/>
-                <Part parts={parts[1]['name']} exercise={parts[1]['exercises']}/>
-                <Part parts={parts[2]['name']} exercise={parts[2]['exercises']}/>
+                <Part parts={course.parts[0]['name']} exercise={course.parts[0]['exercises']}/>
+                <Part parts={course.parts[1]['name']} exercise={course.parts[1]['exercises']}/>
+                <Part parts={course.parts[2]['name']} exercise={course.parts[2]['exercises']}/>
             </div>
         );
     };
@@ -168,9 +169,9 @@ const MyApp = () => {
 
     return (
         <div>
-            <Header  course={course}/>
+            <Header  course={course.name}/>
             <Content />
-            <Total total={parts[0]['exercises'] + parts[1]['exercises'] + parts[2]['exercises']}/>
+            <Total total={course.parts[0]['exercises'] + course.parts[1]['exercises'] + course.parts[2]['exercises']}/>
         </div>
     );
 };
