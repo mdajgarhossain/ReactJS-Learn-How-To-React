@@ -139,4 +139,154 @@ console.log(result4);
 
 
 //Exercises::::::::::::::::
-console.log('Exercises::::::::::::::::::::::::::::::::::::::::::::::::::');
+
+//Object methods and "this"::::::::::::::::::::::::::::::
+console.log('Object methods and "this"::::::::::::::::::::::::::::::::::::::::::::::::::');
+
+
+//Recap Udacity for REactJS:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+//Lesson-1: Objects in Depth
+//3.Invoking Object Methods::A Method Can Access the Object it was Called On:::::
+
+const employee = {
+    name: 'Jewel',
+    age: 7,
+    whatIsThis: function() {
+        console.log(this);
+    },
+    introduce: function() {
+        console.log(`My name is ${this.name}!`);
+    },
+    growOneYear: function() {
+        this.age += 1;
+        console.log('Current age: ' + this.age);
+    }
+};
+
+employee.whatIsThis();
+employee.introduce();
+employee.growOneYear();
+employee.growOneYear();
+
+//Lesson-1 : 4.Beware of Globals::::::::::::::::::::::::::::::::::::::::::::
+//Things that Belong to Objects & 'this' and Function Invocation::::
+const chameleon = {
+    eyes: 2,
+    lookAround: function() {
+        // debugger;   //using it to know the value of 'this'
+        console.log(`I see you with my ${this.eyes} eyes!`);//using 'this' to retrieve a property from 'chameleon' object
+    }
+};
+chameleon.lookAround();
+
+
+function whoThis() {
+    // debugger;   //using it to know the value of 'this' ****
+    console.log(this);
+    this.trickish = true;// using 'this' to set a property
+
+}
+whoThis();
+console.log(window.trickish); //since 'window' is global object
+console.log(this.trickish); //'this' refers to the 'window' object
+
+
+//this and Invocation
+/*note: 1.How the function is invoked determines the value of this inside the function. 
+2. In the above example  .lookAround() is invoked as a method, the value of this inside of 
+.lookAround() is whatever is left of the dot at invocation. 
+3. Now let's compare that with the whoThis() function. Since it is called as a regular 
+function (i.e., not called as an method on an object), its invocation looks like:
+whoThis();  Well, there is no dot. And there is no object left of the dot. So what is the 
+value of this inside the whoThis() function?
+4. When a regular function is invoked, the value of this is the global window object.*/
+
+
+const car = {
+    numberOfDoors:  2,
+    drive: function() {
+        console.log(`Get in one of the ${this.numberOfDoors} doors!`);
+    }
+};
+
+const letsRoll = car.drive;
+letsRoll();
+
+
+//Global Variables are Properties on window::::
+/*Note: Every variable declaration that is made at the global level (outside of a function) 
+automatically becomes a property on the window object!*/
+
+var currentlyEating = 'Ice Cream';
+
+console.log(window.currentlyEating);
+console.log(window.currentlyEating === currentlyEating); //return true
+
+//Globals and var, let, and const::::::::
+/* Note: Only declaring variables with the var keyword will add them to the window object. 
+If you declare a variable outside of a function with either let or const, it will not be 
+added as a property to the window object. */
+
+let currentlyEating2 = 'Ice Cream';
+
+console.log(window.currentlyEating2);
+console.log(window.currentlyEating2 === currentlyEating2); //return false
+
+//Global Functions are Methods on window::::
+
+function learnSomethingNew() {
+    window.open('https://www.google.com/');
+    // this.open('https://www.google.com/')
+}
+
+// learnSomethingNew();
+console.log(window.learnSomethingNew === learnSomethingNew); //return true
+
+//Avoid Globals:::::::
+/*note: Counterintuitively, though, global variables and functions are not ideal. There are 
+actually a number of reasons why, but the two we'll look at are: Tight coupling and Name 
+collisions*/
+
+//Tight Coupling:::
+/*Tight coupling is a phrase that developers use to indicate code that is too dependent on 
+the details of each other. The word "coupling" means the "pairing of two items together." In 
+tight coupling, pieces of code are joined together in a way where changing one 
+unintentionally alters the functioning of some other code: */
+
+var developer = 'Ajgar';
+// var myName = 'Ajgar';
+
+function introMyself() {
+    console.log(`${developer} is a JavaScript developer!`);
+}
+
+introMyself();
+
+//Name Collisions::::::::::::
+/* */
+
+let counter = 1;
+
+function incrementOne() {
+    counter += 1;
+    console.log(counter);
+}
+
+function againIncrementOne() {
+    counter += 1;
+    console.log(counter);
+}
+
+incrementOne();
+incrementOne();
+
+againIncrementOne();
+
+incrementOne();
+
+/*Note: So what should you do instead? You should write as few global variables as possible. 
+Write your variables inside of the functions that need them, keeping them as close to where 
+they are needed as possible. Now, there are times when you'll need to write global variables,
+but you should only write them as a last resort. Excessive use of global variables is not a 
+good practice.*/
