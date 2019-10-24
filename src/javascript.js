@@ -354,3 +354,145 @@ console.log(keys);
 /*Likewise, if we want a list of the values of an object, we can use Object.values(): */
 const values = Object.values(stack);
 console.log(values);
+
+
+//Lesson-2 : Functions at Runtime::::::::::::::::::::::::::::::::::::::::::
+
+// 2.First-Class Functions::::::::::::::::::::::::::::
+//Functions are First-Class Functions:::
+/*In JavaScript, functions are first-class functions. This means that you can do with a 
+function just about anything that you can do with other elements, such as numbers, strings, 
+objects, arrays, etc. JavaScript functions can: a.Be stored in variables, b.Be returned from 
+a function. c.Be passed as arguments into another function
+
+Note that while we can, say, treat a function as an object, a key difference between a 
+function and an object is that functions can be called (i.e., invoked with ()), while 
+regular objects cannot.*/
+
+//a.Functions can Be stored in variables
+//function expression
+const myFunction = function howdy(n1, n2) {
+    return (n1 +n2 ) / 2;
+}
+
+console.log(myFunction(4, 5));
+console.log(myFunction.length); //we can access length property on function(just like array's length and array is an object)
+console.log(myFunction.name);//we can access name property on function
+
+
+//function declaration
+function average1(n1, n2) {
+    return (n1 + n2) / 2;
+}
+
+console.log(average(4, 2));
+console.log(average.length); //we can access length property on function (just like array's length and array is an object)
+console.log(average.name);//we can access name property on function
+
+/*NOTE: So it turns out we can access properties on function just like object , because in 
+Javascript functions are first-class object */
+
+
+//b.Functions can Be returned from a function
+//Functions Can Return Functions
+/*Recall that a function must always return a value.  a function will always return just one 
+value. we can treat a function as a value. and just as easily return a function from another 
+function!*/
+
+/*higher-order function:  A function that returns another function is known as higher-order 
+function. */
+
+function alertThenReturn() {
+    alert('Message 1!');
+
+    return function() {
+        alert('Message 2!');
+    }
+}
+
+// const innerFunction = alertThenReturn();
+// innerFunction();
+
+/* invoked immediately without being stored in a variable. */
+// alertThenReturn()();
+
+
+//3.Callback Functions:::::
+//c. Functions can Be passed as arguments into another function
+/*A function that takes other functions as arguments (and/or returns a function) is known as 
+a higher-order function. A function that is passed as an argument into another function is 
+called a callback function.*/
+function callAndAdd(n, callback) {
+    return n + callback();
+}
+
+function returnsThree() {
+    return 3;
+}
+
+console.log(callAndAdd(700, returnsThree));
+
+
+//Array Methods:::
+
+//a)forEach()
+
+function logIfOdd(n) {
+    if(n % 2 !== 0) {
+        console.log(`${n} is odd!`);
+    } else {
+        console.log(`${n} is even!`);
+    }
+}
+
+logIfOdd(100);
+logIfOdd(99);
+
+[1, 5, 2, 4, 6, 3].forEach(function logIfOdd(n) {
+    if(n % 2 !== 0) {
+        console.log(`${n} is odd!`);
+    } else {
+        console.log(`${n} is even!`);
+    }
+});
+
+//another way
+[1, 5, 2, 4, 6, 3].forEach(function(n) {
+    if(n % 2 !== 0) {
+        console.log(`${n} is odd!`);
+    } else {
+        console.log(`${n} is even!`);
+    }
+});
+
+//another way
+[101, 55, 22, 444, 66, 33].forEach(logIfOdd);
+
+
+//b)map()
+const names = ['Mohammad', 'Karim', 'Jewel'];
+
+const nameLengths = names.map(function(name) {
+    return name.length;
+});
+
+console.log(nameLengths);
+
+/*Note: Remember that the key difference between forEach() and map() is that forEach() 
+doesn't return anything, while map() returns a new array with the values that are returned 
+from the function. Again, it is important to understand that the map() method returns a new 
+array; it does not modify the original array.*/
+
+
+//c)filter():
+
+const namesArray = ['David', 'Richard', 'Veronika'];
+
+const shortNames = namesArray.filter(function(name) {
+    return name.length > 6;
+});
+
+console.log(shortNames);
+
+/*Note: The difference is that the function passed to filter() is used as a test, and only 
+items in the array that pass the test are included in the new array.  */
