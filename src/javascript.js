@@ -147,6 +147,16 @@ console.log('Object methods and "this"::::::::::::::::::::::::::::::::::::::::::
 //Recap Udacity for REactJS:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 //Lesson-1: Objects in Depth
+
+//Creating Objects:::
+
+//Using literal notation:
+const myObject = {};
+
+// Using the Object() constructor function:
+const myObject1 = new Object();
+
+
 //3.Invoking Object Methods::A Method Can Access the Object it was Called On:::::
 
 const employee = {
@@ -290,3 +300,57 @@ Write your variables inside of the functions that need them, keeping them as clo
 they are needed as possible. Now, there are times when you'll need to write global variables,
 but you should only write them as a last resort. Excessive use of global variables is not a 
 good practice.*/
+
+//Lesson-1 : 5.Extracting Properties and Values::::::::::::::::::::::::::::::::::::::::
+
+//Object Methods:::::::
+
+const myNewObject = new Object();
+console.log(myNewObject); //an empty object
+
+/*The Object() function actually includes a few methods of its own to aid in the development 
+of your applications. These methods are: Object.keys() and Object.values()*/
+
+
+//Object.keys() and Object.values()::::::::
+/*At its core, an object is just a collection of key/value pairs. if we want to extract only 
+the keys from an object? */
+
+const stack = {
+    frontend: 'ReactJs',
+    backend: 'NodeJs',
+    fullstack: 'MERN',
+    courses: 3,
+    obj: {}
+};
+console.log(stack);
+
+//1st approach
+// iterate through an object and extract keys from an object
+for(let key in stack) {
+    // console.log(key);
+    console.log(`${key} : ${stack[key]}`);
+}
+
+const keysArray =[];
+for(let key in stack) {
+    keysArray.push(key);
+}
+console.log(keysArray);
+
+const valuesArray =[];
+for(let key in stack) {
+    const value = stack[key];
+    valuesArray.push(value);
+}
+console.log(valuesArray);
+
+//2nd approach
+/*Object.keys() is given an object, it extracts just the keys of that object, then returns 
+those keys in an array: */
+const keys = Object.keys(stack);
+console.log(keys);
+
+/*Likewise, if we want a list of the values of an object, we can use Object.values(): */
+const values = Object.values(stack);
+console.log(values);
