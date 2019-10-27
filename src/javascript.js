@@ -496,3 +496,263 @@ console.log(shortNames);
 
 /*Note: The difference is that the function passed to filter() is used as a test, and only 
 items in the array that pass the test are included in the new array.  */
+
+
+//Lesson-2: 4. Scope::::::::::::::::::::::::
+/*A function's runtime scope describes the variables available for use inside a given 
+function. The code inside a function has access to: a.The function's arguments. b.Local 
+variables declared within the function. c.Variables from its parent function's scope. 
+d.Global variables.*/
+
+const teacher = 'Ajgar'; //global variable in global scope
+
+function giveIntro() {
+    const you = 'student'; //local variable inside parent's function scope
+
+    function introduce() {
+        console.log(`Hey ${you}, I am ${teacher}`);
+    }
+    return introduce();
+}
+
+giveIntro();
+
+//JavaScript is Function-Scoped:::
+/*This is all because variables in JavaScript are traditionally defined in the scope of a 
+function, rather than in the scope of a block. Since entering a function will change scope, 
+any variables defined inside that function are not available outside of that function. On 
+the other hand, if there are any variables defined inside a block (e.g., within an if 
+statement), those variables are available outside of that block. Let's see an example of how 
+function-scoping in JavaScript works:*/
+
+var globalNumber = 5;
+
+function globalIncrementer() {
+    const localNumber = 10;
+
+    globalNumber += 1;
+    return globalNumber;
+}
+
+console.log(globalIncrementer());
+console.log(globalIncrementer());
+console.log(globalIncrementer());
+
+/*After calling the function a few times, we see that the value of globalNumber has indeed 
+increased each time. However, when attempting to access localNumber outside of the function, 
+we see an error: */
+
+// console.log(localNumber);
+
+/*Because JavaScript is function-scoped, functions have access to all its own variables as 
+well as all the global variables outside of it */
+
+//Block-Scoping:::
+/*ES6 syntax allows for additional scope while declaring variables with the let and const 
+keywords. These keywords are used to declare block-scoped variables in JavaScript, and 
+largely replace the need for var */
+
+//ES6- Lesson-1: 2.Let and Const
+/*when using var can get us into trouble. */
+
+function getClothing(isCold) {
+    if(isCold) {
+        var freezing = 'Grab a jacket!';
+    } else {
+        var hot = 'It’s a shorts kind of day.';
+        console.log(freezing);  //return undefined
+    }
+}
+
+getClothing(false);
+
+/*Hoisting
+Hoisting is a result of how JavaScript is interpreted by your browser. Essentially, before 
+any JavaScript code is executed, all variables declared with var are "hoisted", which means 
+they're raised to the top of the function scope */
+
+//let and const::
+/*Variables declared with let and const eliminate this specific issue of hoisting because 
+they’re scoped to the block, not to the function. Previously, when you used var, variables 
+were either scoped globally or locally to an entire function scope */
+
+function solvedGetClothing(isCold) {
+    if(isCold) {
+        let freezing = 'Grab a jacket!';
+    } else {
+        let hot = 'It’s a shorts kind of day.';
+        console.log(freezing);  //return Uncaught ReferenceError:  freezing is not defined
+    }
+}
+
+// solvedGetClothing(false);
+
+/*This behavior prevents variables from being accessed only until after they’ve been 
+declared. Above output throws an error Because freezing is not declared inside the else 
+statement, the function scope, or the global scope, a ReferenceError is thrown.*/
+
+
+//Scope Chain:::
+/*Whenever your code attempts to access a variable during a function call, the JavaScript 
+interpreter will always start off by looking within its own local variables. If the variable 
+isn't found, the search will continue looking up what is called the scope chain. Let's take 
+a look at an example: */
+
+const globe = 'Mountain';
+function one() {
+    console.log('I am one! ' + globe + ' from global scope!');
+    two();
+    function two() {
+        three();
+        function three() {
+            console.log('I am three!');
+        }
+    }
+}
+
+one();
+
+
+//Variable Shadowing:::
+/*What happens when you create a variable with the same name as another variable somewhere 
+in the scope chain? In fact, the variable with local scope will just temporarily "shadow" 
+the variable in the outer scope. This is called variable shadowing. */
+
+const currency = 'USD';
+
+function displayPrice(price) {
+    const currency = 'BDT';
+
+    console.log(`${currency} ${price}`);
+    
+}
+
+displayPrice(700); // BDT 700
+
+
+
+//Lesson - 2: 5- Closures:::
+
+//block scope vs function scope with scope chain:::
+const num = 1;
+function check() {
+    // const num = 1;
+    if(num === 1) {
+        // const num = 2;
+        console.log(num);
+    }
+}
+check();
+
+
+/*The process of a function retaining access to its scope is called a closure. */
+function remember(number) {
+    return function() {
+        return number;
+    }
+}
+
+const returnedFunction = remember(5);
+console.log(returnedFunction());
+
+/*MDN defines a closure as: "the combination of a function and the lexical environment 
+within which that function was declared." */
+
+//Creating a Closure:::
+/*Every time a function is defined, closure is created for that function. Strictly speaking, 
+then, every function has closure! This is because functions close over(capture) at least one 
+other context along the scope chain: the global scope.  it is important to note that a 
+function maintains a reference to its parent's scope. If the reference to the function is 
+still accessible, the scope persists!*/
+
+//Closures and Scope:::
+const devName = 'Jewel'; //global scope
+
+function displayStack() { //function scope & global scope create a lexical environment  using closure function can retain scope or maintain scope chain 
+    const stack = 'Javascript Developer';
+    function inner() { //it retains its scope & hold a reference from its parent function scope by closure
+        // debugger; //check closure in dev tool
+        return `I am a ${stack}.`;
+    }
+    return inner();
+}
+
+console.log(displayStack());
+
+/*more details see udacity */
+
+
+
+//Lesson-2 : 6.Immediately-Invoked Function Expressions (IIFE)
+
+//function declaration
+function returnHello() {
+    return 'Hello';
+}
+
+console.log(returnHello());
+
+//function expression
+
+//anonymous
+const myFunc1 = function() {
+    return 'Hello';
+}
+
+console.log(myFunc1());
+
+//named
+const myFunc2 = function returnHello() {
+    return 'Hello';
+}
+
+console.log(myFunc2());
+
+//Immediately-Invoked Function Expressions: Structure and Syntax
+(function greet() {
+    console.log('Hello there!');
+})();
+
+//Passing Arguments into IIFE's
+(function(name) {
+    console.log(`My name is ${name}`);
+})('Ajgar');
+
+(function(x, y) {
+    console.log(x * y);
+})(3, 5);
+
+//IIFE's and Private Scope
+const myFunction = (
+    function() {
+        const hi = 'Hi';
+
+        return function() {
+            console.log(hi);
+        }
+    }
+)();
+
+myFunction();// ei function chaile return func ke use korte parbe kintu modify korte parbe na karon eta totally private scope eta ke bahir theke access somvob na 
+
+//Alternative Syntax for IIFE's
+(function myFunction() {
+    const hello = 'Hello';
+        console.log(`${hello} there!`);
+}());
+
+
+const button = document.getElementById('button');
+
+button.addEventListener('click', (function() {
+    let count = 0;
+
+    return function() {
+        count += 1;
+
+        if(count === 2) {
+            alert('This alert appears every other clicks!');
+            count = 0;
+        }
+    }
+})());
