@@ -756,3 +756,71 @@ button.addEventListener('click', (function() {
         }
     }
 })());
+
+
+//Lesson-3: Classes and Objects::::::::::::::::::::::::::::::::::::::::
+
+//Lesson-3: 1.Intro
+
+// an object can represent data and functionality:::
+/*An object can represent data and functionality. objects can have properties to represent 
+attributes or characteristics, as well as methods to represent actions that can be 
+performed. */
+
+//Lesson-3: 2.Constructor Functions
+
+//Structure and Syntax
+function SoftwareDeveloper() {
+    this.favoriteLanguage = 'JavaScript';
+}
+
+//Creating a New Object
+const developer = new SoftwareDeveloper();
+console.log(developer);
+
+//Creating Multiple Objects
+const engineer = new SoftwareDeveloper();
+console.log(engineer);
+const programmer = new SoftwareDeveloper();
+console.log(programmer);
+
+//Constructor Functions Can Have Parameters
+function SoftwareDeveloper2(name) {
+    this.favoriteLanguage = 'JavaScript';
+    this.name = name;
+}
+
+const instructor = new SoftwareDeveloper2('Jewel');
+console.log(instructor);
+const trainer = new SoftwareDeveloper2('Ajgar');
+console.log(trainer);
+
+function Hero(name, role) {
+    this.name = name;
+    this.role = role;
+
+    this.introduce = function() {
+        console.log(`My name is ${this.name} and I am a ${this.role}.`);
+    }
+}
+
+const kohinoor = new Hero('Kohinoor', 'Mother');
+console.log(kohinoor);
+kohinoor.introduce()
+
+const gafur = new Hero('Abdul Gafur', 'Father')
+console.log(gafur);
+gafur.introduce();
+
+//Omitting the new Operator
+let coder = SoftwareDeveloper2('Najir');
+console.log(coder);
+ 
+//Seeing the Object's Constructor (instanceof)
+function Developer(name) {
+    this.name = name;
+}
+
+const dev = new Developer('Hossain');
+console.log(typeof dev);
+console.log(dev instanceof Developer);
