@@ -1089,3 +1089,55 @@ dessert2.addScoop();
 console.log(dessert2);
 
 //more details on udacity
+
+
+//Back to main course Part 1b: Object methods and "this"
+
+//We can assign methods to an object by defining properties that are functions:
+const jewel = {
+    name: 'A.H. Jewel',
+    age: 25,
+    education: 'B. Sc',
+
+    // greet: function() {
+    //     console.log(`Hello, My name is ${this.name}`);
+    // }
+
+    greet: function() {
+        // console.log(this);
+        console.log('Hello, My name is', this.name);
+    },
+
+    doAddition: function(a, b) {
+        console.log(a + b);
+    }
+};
+
+jewel.greet();
+
+//Methods can be assigned to objects even after the creation of the object:
+jewel.growOlder = function() {
+    this.age += 1;
+};
+
+console.log(jewel);
+console.log(jewel.age);
+jewel.growOlder();
+console.log(jewel.age);
+
+//Let's slightly modify the object
+jewel.doAddition(1, 4);
+const referenceToAddition = jewel.doAddition;
+referenceToAddition(500, 200);
+
+//If we try to do the same with the method greet we run into an issue:
+const referenceToGreet = jewel.greet;
+referenceToGreet();
+
+//One situation leading to the disappearance of this arises when, e.g. we ask jewel to greet in one second using the setTimeout method.
+setTimeout(jewel.greet, 1000);
+
+//There are several mechanisms by which the original this can be preserved.
+setTimeout(jewel.greet.bind(jewel), 2000);
+/*setTimeout(jewel.greet.call(jewel), 2000);
+setTimeout(jewel.greet.apply(jewel), 2000);*/
