@@ -824,3 +824,268 @@ function Developer(name) {
 const dev = new Developer('Hossain');
 console.log(typeof dev);
 console.log(dev instanceof Developer);
+
+
+//Lesson-3: 3.The `this` Keyword::::::::
+
+//'this' in Constructor Functions
+/* when invoking a constructor function with the new operator, this gets set to the 
+newly-created object!*/
+function Cat(name) {
+    this.name = name;
+    this.sayName = function() {
+        console.log(`Meow! My name is ${this.name}`);
+    }
+}
+
+const bailey = new Cat('Bailey');
+bailey.sayName();
+
+//When is this Assigned?
+/*The value of this is actually not assigned to anything until an object calls the method 
+where this is used. In other words, the value assigned to this is based on the object that 
+invokes the method where this is defined. */
+
+const dog = {
+    bark: function() {
+        console.log('Woof!');
+    },
+
+    barkTwice: function() {
+        this.bark();
+        this.bark();
+    }
+};
+
+dog.bark();
+dog.barkTwice();
+
+//What Does this Get Set To?
+/*There are four ways to call functions, and each way sets this differently. */
+
+/*First: First, calling a constructor function with the new keyword sets this to a 
+newly-created object.*/
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+
+    this.introduce = function() {
+        console.log(`My name is ${this.name}. Now I am ${this.age}`);
+    }
+}
+
+const karim = new Person('Karim', 27);
+karim.introduce();
+
+/*Second: calling a function that belongs to an object (i.e., a method) sets this to the 
+object itself. */
+const myObj = {
+    name: 'Object',
+
+    introduce: function() {
+        console.log(`I am an ${this.name}!`);
+    }
+};
+
+myObj.introduce();
+
+/*Third: calling a function on its own (i.e., simply invoking a regular function) will set 
+this to window, which is the global object if the host environment is the browser. */
+function funFunction() {
+    console.log(this);
+}
+
+funFunction();
+
+/*The fourth way to call functions allows us to set this ourselves!  */
+
+//Lesson-3: 4.Setting Our Own `this`:::::::::::::::::
+//More Ways to Invoke Functions
+
+//call() or the apply() methods:
+/*Each method can be directly invoked onto a function itself (after all, JavaScript 
+functions are first-class functions and can have properties and methods). As a result, the 
+receiving function will be invoked with a specified this value, as well as any arguments 
+passed in. */
+
+//call():::
+/*call() is a method directly invoked onto a function. We first pass into it a single value 
+to set as the value of this; then we pass in any of the receiving function's arguments 
+one-by-one, separated by commas. */
+
+function multiply(n1, n2) {
+    console.log(this);
+    return n1 * n2;
+}
+
+console.log(multiply(3, 4));
+
+console.log(multiply.call(window, 3, 4));
+
+const math = {
+    var: 2
+};
+
+console.log(multiply.call(math, 3, 4));
+
+/*Along with invoking regular functions, how do we go upon invoking functions attached to 
+objects (i.e., methods)? This is where the power of call() really shines. Using call() to 
+invoke a method allows us to "borrow" a method from one object -- then use it for another 
+object! */
+
+const mockingbird = {
+    title: 'To kill a mocking bird',
+
+    describe: function() {
+        console.log(`${this.title} is a classic novel`);
+    }
+};
+
+const pride = {
+    title: 'Pride and Prejudice'
+};
+
+
+mockingbird.describe.call(pride);
+
+//apply():::
+function add(n1, n2, n3) {
+    return n1 + n2 + n3;
+}
+
+console.log(add.call(window, 3, 4, 5));
+
+console.log(add.apply(window, [3, 4, 5]));
+
+
+const mountain = {
+    name: 'Alaska',
+
+    describe: function() {
+        console.log(`${this.name} is a huge mountain!!!`);
+    }
+};
+
+const hill = {
+    name: 'Tajing Dong'
+};
+
+mountain.describe.call(hill);
+
+mountain.describe.apply(hill);
+
+//Let's now see call() and apply() in action!
+const hen = {
+    name: 'Murgi'
+};
+
+function sayHello(message) {
+    console.log(`${message}, ${this.name}!`);
+}
+
+sayHello.call(hen, 'Hello');
+sayHello.apply(hen, ['Hello']);
+
+
+//Callbacks and this::::
+/*The value of this has some potential scope issues when callback functions are involved, 
+and things can get a bit tricky. */
+function invokeTwice(callback) {
+    callback();
+    callback();
+}
+
+const baby = {
+    age: 5,
+
+    growOneYear: function() {
+        this.age += 1;
+    }
+};
+
+// baby.growOneYear();
+// console.log(baby.age);
+
+
+// invokeTwice(baby.growOneYear)
+// console.log(baby.age);
+
+
+//Saving this with an Anonymous Closure
+invokeTwice(function() {
+    baby.growOneYear();
+});
+
+console.log(baby.age);
+
+
+//Saving this with bind()
+const myGrow = baby.growOneYear.bind(baby);
+invokeTwice(myGrow);
+console.log(baby.age);
+
+
+const driver = {
+    name: 'Danica',
+    displayName: function () {
+      console.log(`Name: ${this.name}`);
+    }
+};
+  
+const car = {
+    name: 'Fusion'
+};
+
+const reFunction = driver.displayName.bind(car);
+reFunction();
+driver.displayName.call(car);
+driver.displayName.call(car);
+
+//more details on udacity
+
+//"this" and Arrow Functions:::
+
+//constructor function
+function IceCream() {
+    this.scoops = 0;
+}
+
+IceCream.prototype.addScoop = function() {
+    // console.log(this);
+    const cone = this;
+
+    setTimeout(function() {
+        // console.log(this);
+        cone.scoops++;
+        console.log('Scoop added!');
+        console.log(dessert.scoops);
+    }, 500);
+};
+
+const dessert = new IceCream();
+dessert.addScoop();
+console.log(dessert);
+
+/*Well that's exactly what arrow functions do, so let's replace the function passed to 
+setTimeout() with an arrow function: */
+//constructor function
+function IceCream2() {
+    this.scoops = 5;
+}
+
+IceCream2.prototype.addScoop = function() {
+    // console.log(this);
+
+    setTimeout(() => {
+        console.log(this);
+        this.scoops++;
+        console.log('Scoop added!');
+        console.log(dessert2.scoops);
+    }, 500);
+};
+
+const dessert2 = new IceCream2();
+dessert2.addScoop();
+console.log(dessert2);
+
+//more details on udacity
