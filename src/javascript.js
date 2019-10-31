@@ -1141,3 +1141,23 @@ setTimeout(jewel.greet, 1000);
 setTimeout(jewel.greet.bind(jewel), 2000);
 /*setTimeout(jewel.greet.call(jewel), 2000);
 setTimeout(jewel.greet.apply(jewel), 2000);*/
+
+
+//Part 1b- Classes
+
+class Person {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    greet() {
+        console.log('Hello, My name is', this.name);
+    }
+}
+
+const karim = new Person('Karim', 26);
+karim.greet();
+
+const rahim = new Person('Rahim', 27);
+rahim.greet();
